@@ -34,5 +34,6 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     QOpenGLShaderProgram *program;
 
     GLuint VAO1;
+    GLuint VAO2;
     GLint ample, alt;
 };
