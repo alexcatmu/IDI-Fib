@@ -1,5 +1,5 @@
 # IDI-Fib
 Asignatura de IDI de la FIB
-make
-qmake-qt5
-./Bloc1_Exemple
+- make
+- qmake-qt5
+- ./Bloc1_Exemple
