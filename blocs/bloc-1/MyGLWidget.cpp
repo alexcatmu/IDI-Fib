@@ -88,32 +88,33 @@ void MyGLWidget::creaBuffers ()
   // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
   glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(vertexLoc);
+  // Desactivem el VAO
+  glBindVertexArray(0);
   
   
   
   
+  glm::vec3 Vertices2[3];  // Tres vèrtexs amb X, Y i Z
+  Vertices2[0] = glm::vec3(1, 1, 0.0);
+  Vertices2[1] = glm::vec3(1, 0, 0.0);
+  Vertices2[2] = glm::vec3(0.8, 0, 0.0);
   
-  glm::vec3 Vertices2[9];  // Tres vèrtexs amb X, Y i Z
-  Vertices2[0] = glm::vec3(1, 0, 0.0);
-  Vertices2[1] = glm::vec3(1, -1, 0.0);
-  Vertices2[2] = glm::vec3(0, -1, 0.0);
-  
+
+  // Creació del Vertex Array Object (VAO) que usarem per pintar
   glGenVertexArrays(1, &VAO2);
   glBindVertexArray(VAO2);
-  
-    GLuint VBO2;
+
+  // Creació del buffer amb les dades dels vèrtexs
+  GLuint VBO2;
   glGenBuffers(1, &VBO2);
   glBindBuffer(GL_ARRAY_BUFFER, VBO2);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), Vertices, GL_STATIC_DRAW);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), Vertices2, GL_STATIC_DRAW);
   // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
   glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(vertexLoc);
-  
-  
-  
-  
   // Desactivem el VAO
   glBindVertexArray(0);
+  
 }
 
 void MyGLWidget::carregaShaders()
