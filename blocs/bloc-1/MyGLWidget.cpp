@@ -37,20 +37,33 @@ void MyGLWidget::paintGL ()
 
 // En cas de voler canviar els paràmetres del viewport, descomenteu la crida següent i
 // useu els paràmetres que considereu (els que hi ha són els de per defecte)
-//  glViewport (0, 0, ample, alt);
+    
   
   glClear (GL_COLOR_BUFFER_BIT);  // Esborrem el frame-buffer
-
+/**
+ * Primer Array a pintar, abajo a la izquierda
+ * */
+    glViewport (0, 0, ample/2, alt/2);
   // Activem l'Array a pintar 
   glBindVertexArray(VAO1);
  
   // Pintem l'escena
   glDrawArrays(GL_TRIANGLES, 0, 9);
-    glBindVertexArray(0);
-
-    
   glBindVertexArray(VAO2);
+    glDrawArrays(GL_TRIANGLES, 0, 3);    
+    
+    /**
+     * Segundo Array a pintar, arriba la derecha
+     * */
+    //Activem l'array a pintar(en aquest cas utilitzarem el mateix VAO(ja que la figura es la mateixa moguda)
+    glViewport(ample/2, alt/2, ample/2, alt/2);
+    glBindVertexArray(VAO1);
+    
+    //pintem l'escena, que en aquest cas hi sera a sota a la esquerra
+    glDrawArrays(GL_TRIANGLES, 0, 9);
+    glBindVertexArray(VAO2);
     glDrawArrays(GL_TRIANGLES, 0, 3);
+    
   // Desactivem el VAO
   glBindVertexArray(0);
 }
@@ -63,6 +76,9 @@ void MyGLWidget::resizeGL (int w, int h)
 
 void MyGLWidget::creaBuffers ()
 {
+    /**
+     * Primer objeto
+     * */
   glm::vec3 Vertices[9];  // Tres vèrtexs amb X, Y i Z
   Vertices[0] = glm::vec3(-1, 0, 0.0);
   Vertices[1] = glm::vec3(-1, -1, 0.0);
@@ -88,11 +104,13 @@ void MyGLWidget::creaBuffers ()
   // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
   glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(vertexLoc);
-  // Desactivem el VAO
-  glBindVertexArray(0);
+  /*
+   * FIN primer objeto
+   * */
   
-  
-  
+  /*
+   * Segundo objeto
+   * */
   
   glm::vec3 Vertices2[3];  // Tres vèrtexs amb X, Y i Z
   Vertices2[0] = glm::vec3(1, 1, 0.0);
@@ -112,6 +130,11 @@ void MyGLWidget::creaBuffers ()
   // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
   glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(vertexLoc);
+  /*
+   * FIN segundo objeto
+   * */
+  
+  
   // Desactivem el VAO
   glBindVertexArray(0);
   
