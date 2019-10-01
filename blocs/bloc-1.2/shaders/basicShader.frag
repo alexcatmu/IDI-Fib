@@ -13,6 +13,5 @@ void main() {
         FragColor = vec4(0, 0, 255, 1); //AZUL SUPERIOR DERECHA
         }
     }
-    if(int(gl_FragCoord.y / 10) % 2 != 0) discard;
 }
 
