@@ -28,7 +28,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     void carregaShaders ();
     
     // attribute locations
-    GLuint vertexLoc;
+    GLuint vertexLoc, vertexCol;
     
     // Program
     QOpenGLShaderProgram *program;
