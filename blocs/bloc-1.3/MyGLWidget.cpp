@@ -19,7 +19,7 @@ void MyGLWidget::initializeGL ()
 {
   // Cal inicialitzar l'ús de les funcions d'OpenGL
   initializeOpenGLFunctions();
-  
+
   glClearColor (0.5, 0.7, 1.0, 1.0); // defineix color de fons (d'esborrat)
   carregaShaders();
   creaBuffers();
@@ -102,8 +102,15 @@ void MyGLWidget::carregaShaders()
   // Obtenim identificador per a l'atribut “vertex” del vertex shader
   vertexLoc = glGetAttribLocation (program->programId(), "vertex");
   varLoc = glGetUniformLocation(program->programId(), "val");
+  transLoc = glGetUniformLocation(program->programId(), "TG");
   glUniform1f(varLoc, scl);
+  modelTransform();
+}
 
+void MyGLWidget::modelTransform() {
+    glm::mat4 TG (1.0);
+    TG = glm::translate (TG, glm::vec3(tx, ty, 0));
+    glUniformMatrix4fv(transLoc, 1, GL_FALSE, &TG[0][0]);
 }
 
 void MyGLWidget::keyPressEvent(QKeyEvent *e){
@@ -116,6 +123,22 @@ void MyGLWidget::keyPressEvent(QKeyEvent *e){
         case Qt::Key_D :
             scl -= 0.1;
             glUniform1f(varLoc, scl);
+            break;
+        case Qt::Key_Left:
+            tx -= 0.1;
+            modelTransform();
+            break;
+        case Qt::Key_Right:
+            tx += 0.1;
+            modelTransform();
+            break;
+        case Qt::Key_Up:
+            ty += 0.1;
+            modelTransform();
+            break;
+        case Qt::Key_Down:
+            ty -= 0.1;
+            modelTransform();
             break;
         default: e->ignore();
     }

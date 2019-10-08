@@ -5,6 +5,7 @@
 #include "glm/glm.hpp"
 
 #include <QKeyEvent>
+#include "glm/gtc/matrix_transform.hpp"
 
 class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
@@ -30,12 +31,17 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
   private:
     void creaBuffers ();
     void carregaShaders ();
-    
+    void modelTransform();
+
     // attribute locations
     GLuint vertexLoc;
     GLuint varLoc;
+    GLuint transLoc;
+    
     float scl = 1.0;
-
+    float tx = 0;
+    float ty = 0;
+    
     // Program
     QOpenGLShaderProgram *program;
 
