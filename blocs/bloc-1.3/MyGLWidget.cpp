@@ -101,4 +101,23 @@ void MyGLWidget::carregaShaders()
 
   // Obtenim identificador per a l'atribut “vertex” del vertex shader
   vertexLoc = glGetAttribLocation (program->programId(), "vertex");
+  varLoc = glGetUniformLocation(program->programId(), "val");
+  glUniform1f(varLoc, scl);
+
+}
+
+void MyGLWidget::keyPressEvent(QKeyEvent *e){
+    makeCurrent();
+    switch(e->key()){
+        case Qt::Key_S :
+            scl += 0.1;
+            glUniform1f(varLoc, scl);
+            break;
+        case Qt::Key_D :
+            scl -= 0.1;
+            glUniform1f(varLoc, scl);
+            break;
+        default: e->ignore();
+    }
+    update();
 }

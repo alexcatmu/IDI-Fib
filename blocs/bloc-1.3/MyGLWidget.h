@@ -4,6 +4,8 @@
 #include <QOpenGLShaderProgram>
 #include "glm/glm.hpp"
 
+#include <QKeyEvent>
+
 class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
   Q_OBJECT
@@ -23,13 +25,17 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     // resize - Es cridat quan canvia la mida del widget
     virtual void resizeGL (int width, int height);  
 
+    virtual void keyPressEvent (QKeyEvent *e);
+    
   private:
     void creaBuffers ();
     void carregaShaders ();
     
     // attribute locations
     GLuint vertexLoc;
-    
+    GLuint varLoc;
+    float scl = 1.0;
+
     // Program
     QOpenGLShaderProgram *program;
 
