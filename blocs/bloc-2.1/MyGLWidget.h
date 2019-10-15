@@ -6,6 +6,7 @@
 #include <QKeyEvent>
 #include "glm/glm.hpp"
 #include "glm/gtc/matrix_transform.hpp"
+#include "./Model/model.h"
 
 class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core 
 {
@@ -38,8 +39,11 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     GLuint transLoc;
     GLuint projLoc;
     GLuint viewLoc;
+    //variable model
+    Model m;//cargamos un solo modelo
     // VAO i VBO names
-    GLuint VAO_Casa;
+    //GLuint VAO_Casa;
+    GLuint VAO_Homer;
     // Program
     QOpenGLShaderProgram *program;
     // Viewport

@@ -18,7 +18,15 @@ void MyGLWidget::initializeGL ()
 {
   // Cal inicialitzar l'ús de les funcions d'OpenGL
   initializeOpenGLFunctions();  
-
+    /**
+     * Cargamos el modelo
+     * */
+    //Model m;//cargamos un solo modelo
+    m.load("../models/HomerProves.obj");
+    glEnable(GL_DEPTH_TEST);
+    /** 
+     * Fin carga del modelo
+     * */
   glClearColor(0.5, 0.7, 1.0, 1.0); // defineix color de fons (d'esborrat)
   carregaShaders();
   creaBuffers();
@@ -48,10 +56,10 @@ void MyGLWidget::paintGL ()
   //carreguem el view del model
   viewTransform();
   // Activem el VAO per a pintar la caseta 
-  glBindVertexArray (VAO_Casa);
+  glBindVertexArray (VAO_Homer);
 
   // pintem
-  glDrawArrays(GL_TRIANGLES, 0, 9);
+  glDrawArrays(GL_TRIANGLES, 0, m.faces().size() * 3);
 
   glBindVertexArray (0);
 }
@@ -91,6 +99,7 @@ void MyGLWidget::creaBuffers ()
 {
   // Dades de la caseta
   // Dos VBOs, un amb posició i l'altre amb color
+    /*
   glm::vec3 posicio[9] = {
 	glm::vec3(-0.5, -1.0, -0.5),
 	glm::vec3( 0.5, -1.0, -0.5),
@@ -113,22 +122,22 @@ void MyGLWidget::creaBuffers ()
 	glm::vec3(0,1,0),
 	glm::vec3(0,0,1)
   };
-
+*/
   // Creació del Vertex Array Object per pintar
-  glGenVertexArrays(1, &VAO_Casa);
-  glBindVertexArray(VAO_Casa);
+  glGenVertexArrays(1, &VAO_Homer);
+  glBindVertexArray(VAO_Homer);
 
-  GLuint VBO_Casa[2];
-  glGenBuffers(2, VBO_Casa);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO_Casa[0]);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(posicio), posicio, GL_STATIC_DRAW);
+  GLuint VBO_Homer[2];
+  glGenBuffers(2, VBO_Homer);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_Homer[0]);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m.faces().size() * 3 * 3, m.VBO_vertices(), GL_STATIC_DRAW);
 
   // Activem l'atribut vertexLoc
   glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(vertexLoc);
 
-  glBindBuffer(GL_ARRAY_BUFFER, VBO_Casa[1]);
-  glBufferData(GL_ARRAY_BUFFER, sizeof(color), color, GL_STATIC_DRAW);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_Homer[1]);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m.faces().size() * 3 * 3, m.VBO_matdiff(), GL_STATIC_DRAW);
 
   // Activem l'atribut colorLoc
   glVertexAttribPointer(colorLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
