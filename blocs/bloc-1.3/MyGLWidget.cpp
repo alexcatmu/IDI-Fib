@@ -40,7 +40,7 @@ void MyGLWidget::paintGL ()
 //  glViewport (0, 0, ample, alt);
   
   glClear (GL_COLOR_BUFFER_BIT);  // Esborrem el frame-buffer
-
+    modelTransform();
   // Activem l'Array a pintar 
   glBindVertexArray(VAO1);
  
@@ -64,6 +64,11 @@ void MyGLWidget::creaBuffers ()
   Vertices[1] = glm::vec3(1.0, -1.0, 0.0);
   Vertices[2] = glm::vec3(0.0, 1.0, 0.0);
   
+  glm::vec3 colores[3];
+  colores[0] = glm::vec3(0, 0, 0);
+    colores[1] = glm::vec3(1, 1, 1);
+    colores[2] = glm::vec3(0.2, 0.4, 0.6);
+  
   // Creació del Vertex Array Object (VAO) que usarem per pintar
   glGenVertexArrays(1, &VAO1);
   glBindVertexArray(VAO1);
@@ -77,6 +82,16 @@ void MyGLWidget::creaBuffers ()
   glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(vertexLoc);
 
+  //creacio del buffer amb les dades del color
+  GLuint VBO2;
+  glGenBuffers(1, &VBO2);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO2);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(colores), colores, GL_STATIC_DRAW);
+  // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
+  glVertexAttribPointer(vertexCol, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(vertexCol);
+  
+  
   // Desactivem el VAO
   glBindVertexArray(0);
 }
@@ -103,6 +118,7 @@ void MyGLWidget::carregaShaders()
   vertexLoc = glGetAttribLocation (program->programId(), "vertex");
   varLoc = glGetUniformLocation(program->programId(), "val");
   transLoc = glGetUniformLocation(program->programId(), "TG");
+  vertexCol = glGetAttribLocation (program->programId(), "colores");
   glUniform1f(varLoc, scl);
   modelTransform();
 }
@@ -110,6 +126,7 @@ void MyGLWidget::carregaShaders()
 void MyGLWidget::modelTransform() {
     glm::mat4 TG (1.0);
     TG = glm::translate (TG, glm::vec3(tx, ty, 0));
+    TG = glm::rotate (TG, anglegir,glm::vec3(0.0, 0.0, 1.0));
     glUniformMatrix4fv(transLoc, 1, GL_FALSE, &TG[0][0]);
 }
 
@@ -126,18 +143,22 @@ void MyGLWidget::keyPressEvent(QKeyEvent *e){
             break;
         case Qt::Key_Left:
             tx -= 0.1;
+            anglegir += M_PI/4;
             modelTransform();
             break;
         case Qt::Key_Right:
             tx += 0.1;
+            anglegir += M_PI/4;
             modelTransform();
             break;
         case Qt::Key_Up:
             ty += 0.1;
+            anglegir += M_PI/4;
             modelTransform();
             break;
         case Qt::Key_Down:
             ty -= 0.1;
+            anglegir += M_PI/4;
             modelTransform();
             break;
         default: e->ignore();

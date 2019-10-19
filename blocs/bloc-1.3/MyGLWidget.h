@@ -37,10 +37,12 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     GLuint vertexLoc;
     GLuint varLoc;
     GLuint transLoc;
+    GLuint vertexCol;
     
     float scl = 1.0;
     float tx = 0;
     float ty = 0;
+    float anglegir = 0;
     
     // Program
     QOpenGLShaderProgram *program;
