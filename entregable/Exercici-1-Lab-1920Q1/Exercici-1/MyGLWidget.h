@@ -30,6 +30,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     void creaBuffersArbre ();
     void carregaShaders ();
     void pintaArbre ();
+    void pintaEstel ();
     
     void modelTransformArbre (float anglegir);
     void creaBuffersEstel ();
@@ -43,6 +44,6 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 
     GLuint VAO1, VAO2;
     GLint ample, alt;
-
-    float anglegirArbre;
+    
+    float anglegirArbre = 0;
 };
