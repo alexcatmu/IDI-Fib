@@ -43,9 +43,15 @@ void MyGLWidget::paintGL ()
     modelTransform();
   // Activem l'Array a pintar 
   glBindVertexArray(VAO1);
- 
   // Pintem l'escena
   glDrawArrays(GL_TRIANGLES, 0, 3);
+  
+  modelTransform();
+  modelTransformOBJ2();
+  glBindVertexArray(VAO2);
+  // Pintem l'escena
+  glDrawArrays(GL_TRIANGLES, 0, 3);
+  
   
   // Desactivem el VAO
   glBindVertexArray(0);
@@ -92,6 +98,26 @@ void MyGLWidget::creaBuffers ()
   glEnableVertexAttribArray(vertexCol);
   
   
+  
+  
+  
+  glm::vec3 Vertices2[3];  // Tres vèrtexs amb X, Y i Z
+  Vertices2[0] = glm::vec3(1.0, 1.0, 0.0);
+  Vertices2[1] = glm::vec3(-1.0, 1.0, 0.0);
+  Vertices2[2] = glm::vec3(0.0, -1.0, 0.0);
+  
+    glGenVertexArrays(1, &VAO2);
+  glBindVertexArray(VAO2);
+  
+  GLuint VBO3;
+  glGenBuffers(1, &VBO3);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO3);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices2), Vertices2, GL_STATIC_DRAW);
+  // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
+  glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(vertexLoc);
+  
+  
   // Desactivem el VAO
   glBindVertexArray(0);
 }
@@ -125,8 +151,24 @@ void MyGLWidget::carregaShaders()
 
 void MyGLWidget::modelTransform() {
     glm::mat4 TG (1.0);
+    
     TG = glm::translate (TG, glm::vec3(tx, ty, 0));
     TG = glm::rotate (TG, anglegir,glm::vec3(0.0, 0.0, 1.0));
+    TG = glm::scale(TG, glm::vec3(scl, scl, 0));
+    TG = glm::scale(TG, glm::vec3(scl_x, scl_y, 0));
+    TG = glm::rotate (TG, anglegirOBJ1,glm::vec3(0.0, 0.0, 1.0));
+    glUniformMatrix4fv(transLoc, 1, GL_FALSE, &TG[0][0]);
+}
+
+void MyGLWidget::modelTransformOBJ2() {
+    glm::mat4 TG (1.0);
+    
+    TG = glm::translate (TG, glm::vec3(tx, ty, 0));
+    TG = glm::rotate (TG, anglegir,glm::vec3(0.0, 0.0, 1.0));
+    TG = glm::scale(TG, glm::vec3(scl, scl, 0));
+    TG = glm::scale(TG, glm::vec3(scl_x, scl_y, 0));
+    TG = glm::rotate (TG, anglegirOBJ2,glm::vec3(0.0, 0.0, 1.0));
+    
     glUniformMatrix4fv(transLoc, 1, GL_FALSE, &TG[0][0]);
 }
 
@@ -135,33 +177,42 @@ void MyGLWidget::keyPressEvent(QKeyEvent *e){
     switch(e->key()){
         case Qt::Key_S :
             scl += 0.1;
-            glUniform1f(varLoc, scl);
             break;
         case Qt::Key_D :
             scl -= 0.1;
-            glUniform1f(varLoc, scl);
             break;
         case Qt::Key_Left:
             tx -= 0.1;
-            anglegir += M_PI/4;
-            modelTransform();
             break;
         case Qt::Key_Right:
             tx += 0.1;
-            anglegir += M_PI/4;
-            modelTransform();
             break;
         case Qt::Key_Up:
             ty += 0.1;
-            anglegir += M_PI/4;
-            modelTransform();
             break;
         case Qt::Key_Down:
             ty -= 0.1;
+            break;
+        case Qt::Key_R:
             anglegir += M_PI/4;
-            modelTransform();
+            break;
+        case Qt::Key_P:
+            anglegirOBJ1 -= M_PI/6;
+            anglegirOBJ2 += M_PI/6;
             break;
         default: e->ignore();
     }
+    update();
+}
+
+void MyGLWidget::mouseMoveEvent(QMouseEvent *e){
+    makeCurrent();
+    if(e->x() > ant_x) scl_x += 0.01;//crece x
+    if(e->x() < ant_x) scl_x -= 0.01;//decrece x
+    if(e->y() > ant_y) scl_y += 0.01;//crece y
+    if(e->y() < ant_y) scl_y -= 0.01;//decrece y
+    
+    ant_x = e->x();
+    ant_y = e->y();
     update();
 }

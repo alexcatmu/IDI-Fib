@@ -28,11 +28,15 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 
     virtual void keyPressEvent (QKeyEvent *e);
     
+    virtual void mouseMoveEvent (QMouseEvent *e);
+    
   private:
     void creaBuffers ();
     void carregaShaders ();
     void modelTransform();
 
+    
+    void modelTransformOBJ2();
     // attribute locations
     GLuint vertexLoc;
     GLuint varLoc;
@@ -40,13 +44,19 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     GLuint vertexCol;
     
     float scl = 1.0;
+    float scl_x = 1.0;
+    float scl_y = 1.0;
+    float ant_x = 0;
+    float ant_y = 0;
     float tx = 0;
     float ty = 0;
     float anglegir = 0;
+    float anglegirOBJ1 = 0;
+    float anglegirOBJ2 = 0;
     
     // Program
     QOpenGLShaderProgram *program;
 
-    GLuint VAO1;
+    GLuint VAO1, VAO2;
     GLint ample, alt;
 };
