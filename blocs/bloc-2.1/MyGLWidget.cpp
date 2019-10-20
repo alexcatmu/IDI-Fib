@@ -69,6 +69,7 @@ void MyGLWidget::modelTransform ()
   // Matriu de transformació de model
   glm::mat4 transform (1.0f);
   transform = glm::scale(transform, glm::vec3(scale));
+  transform = glm::rotate (transform, anglegir,glm::vec3(0.0, 1.0, 0.0));
   glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
 }
 
@@ -90,6 +91,10 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event)
       scale -= 0.05;
       break;
     }
+    case Qt::Key_R: {
+        anglegir += M_PI/4;
+        break;
+    }
     default: event->ignore(); break;
   }
   update();
@@ -99,30 +104,6 @@ void MyGLWidget::creaBuffers ()
 {
   // Dades de la caseta
   // Dos VBOs, un amb posició i l'altre amb color
-    /*
-  glm::vec3 posicio[9] = {
-	glm::vec3(-0.5, -1.0, -0.5),
-	glm::vec3( 0.5, -1.0, -0.5),
-	glm::vec3(-0.5,  0.0, -0.5),
-	glm::vec3(-0.5,  0.0, -0.5),
-	glm::vec3( 0.5, -1.0, -0.5),
-	glm::vec3( 0.5,  0.0, -0.5),
-	glm::vec3( 0.5,  0.0, -0.5),
-	glm::vec3( 0.0,  0.6, -0.5),
-	glm::vec3(-0.5,  0.0, -0.5)
-  }; 
-  glm::vec3 color[9] = {
-	glm::vec3(1,0,0),
-	glm::vec3(0,1,0),
-	glm::vec3(0,0,1),
-	glm::vec3(0,0,1),
-	glm::vec3(0,1,0),
-	glm::vec3(1,0,0),
-	glm::vec3(1,0,0),
-	glm::vec3(0,1,0),
-	glm::vec3(0,0,1)
-  };
-*/
   // Creació del Vertex Array Object per pintar
   glGenVertexArrays(1, &VAO_Homer);
   glBindVertexArray(VAO_Homer);
@@ -183,4 +164,3 @@ void MyGLWidget::carregaShaders()
   projLoc = glGetUniformLocation(program->programId(), "proj");
   viewLoc = glGetUniformLocation(program->programId(), "view");
 }
-

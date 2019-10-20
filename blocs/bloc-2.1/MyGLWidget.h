@@ -50,6 +50,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     GLint ample, alt;
     // Internal vars
     float scale;
+    float anglegir = 0;
     glm::vec3 pos;
 };
 
