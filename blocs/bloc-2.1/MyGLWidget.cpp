@@ -61,6 +61,16 @@ void MyGLWidget::paintGL ()
   // pintem
   glDrawArrays(GL_TRIANGLES, 0, m.faces().size() * 3);
 
+  
+  
+    modelTransformSuelo();
+  // Activem el VAO per a pintar la caseta 
+  glBindVertexArray (VAO_Suelo);
+
+  // pintem
+  glDrawArrays(GL_TRIANGLES, 0, 6);
+  
+  
   glBindVertexArray (0);
 }
 
@@ -70,6 +80,13 @@ void MyGLWidget::modelTransform ()
   glm::mat4 transform (1.0f);
   transform = glm::scale(transform, glm::vec3(scale));
   transform = glm::rotate (transform, anglegir,glm::vec3(0.0, 1.0, 0.0));
+  glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
+}
+
+void MyGLWidget::modelTransformSuelo () 
+{
+  // Matriu de transformació de model
+  glm::mat4 transform (1.0f);
   glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
 }
 
@@ -124,6 +141,45 @@ void MyGLWidget::creaBuffers ()
   glVertexAttribPointer(colorLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(colorLoc);
 
+  
+  
+  glm::vec3 Vertices[6];  // Tres vèrtexs amb X, Y i Z
+  Vertices[0] = glm::vec3(-2.0, -1.0, -2.0);
+  Vertices[1] = glm::vec3(2.0, -1.0, -2.0);
+  Vertices[2] = glm::vec3(-2.0, -1.0, 2.0);
+  Vertices[3] = glm::vec3(2.0, -1.0, -2.0);
+  Vertices[4] = glm::vec3(2.0, -1.0, 2.0);
+  Vertices[5] = glm::vec3(-2.0, -1.0, 2.0);
+  
+  glm::vec3 colores[6];
+  colores[0] = glm::vec3(0, 0, 0);
+    colores[1] = glm::vec3(1, 1, 1);
+    colores[2] = glm::vec3(0.2, 0.4, 0.6);
+    
+  colores[3] = glm::vec3(0, 0, 0);
+    colores[4] = glm::vec3(1, 1, 1);
+    colores[5] = glm::vec3(0.2, 0.4, 0.6);
+  
+    glGenVertexArrays(1, &VAO_Suelo);
+  glBindVertexArray(VAO_Suelo);
+  
+  GLuint VBO_Suelo;
+  glGenBuffers(1, &VBO_Suelo);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_Suelo);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(Vertices), Vertices, GL_STATIC_DRAW);
+  // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
+  glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(vertexLoc);
+  
+  
+    GLuint VBO_SueloColor;
+  glGenBuffers(1, &VBO_SueloColor);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_SueloColor);
+  glBufferData(GL_ARRAY_BUFFER, sizeof(colores), colores, GL_STATIC_DRAW);
+  // Activem l'atribut que farem servir per vèrtex (només el 0 en aquest cas)	
+  glVertexAttribPointer(colorLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
+  glEnableVertexAttribArray(colorLoc);
+  
   glBindVertexArray (0);
 }
 

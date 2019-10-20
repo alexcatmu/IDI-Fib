@@ -31,6 +31,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     void creaBuffers ();
     void carregaShaders ();
     void modelTransform ();
+    void modelTransformSuelo ();
     void projectTransform ();
     void viewTransform ();
     // attribute locations
@@ -43,7 +44,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     Model m;//cargamos un solo modelo
     // VAO i VBO names
     //GLuint VAO_Casa;
-    GLuint VAO_Homer;
+    GLuint VAO_Homer, VAO_Suelo;
     // Program
     QOpenGLShaderProgram *program;
     // Viewport
