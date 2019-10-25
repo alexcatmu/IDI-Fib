@@ -22,18 +22,16 @@ void MyGLWidget::initializeGL ()
      * Cargamos el modelo
      * */
     //Model m;//cargamos un solo modelo
-    m.load("../models/HomerProves.obj");
+    m.load("../models/Patricio.obj");
     
     /**
      * 
      * INITIALIZAR VARIABLES PARA EL OBSERVADOR Y CAMARA
      * */
+    getMinBoxPatricio();
     
-        //float maxY = -1;
-    //for(unsigned int i = 0; i < m.vertices().size(); i+=3) if(m.vertices()[i+1] > maxY) maxY = m.vertices()[i+1];
-    
-    Pmin = glm::vec3(-1,-1,-1);//minimo esquina del suelo, conocido
-    Pmax = glm::vec3(1, 1,1);//maximo esquina del suelo, conocido, falta el alto del homer
+    Pmin = glm::vec3(-2.5,0,-2.5);//minimo esquina del suelo, conocido
+    Pmax = glm::vec3(2.5, maxPatricio.y - minPatricio.y, 2.5);//maximo esquina del suelo, conocido, falta el alto del Patricio
     
     //Centro de la caja mínima contenedora de la escena, centro = VRP
     centro = (Pmin + Pmax) / glm::vec3(2.0,2.0,2.0);
@@ -48,7 +46,7 @@ void MyGLWidget::initializeGL ()
     
     
     //observador de la escena, VRP+d(0,0,1)
-    OBS = glm::vec3(0,0,d);
+    OBS = glm::vec3(0,2.0,d);
     
     FOV = 2 * asin(radio / d);
     
@@ -65,6 +63,26 @@ void MyGLWidget::initializeGL ()
   glClearColor(0.5, 0.7, 1.0, 1.0); // defineix color de fons (d'esborrat)
   carregaShaders();
   creaBuffers();
+}
+
+void MyGLWidget::getMinBoxPatricio() {
+    minPatricio = glm::vec3(m.vertices()[0], m.vertices()[1], m.vertices()[2]);
+    maxPatricio = glm::vec3(m.vertices()[0], m.vertices()[1], m.vertices()[2]);
+    
+    for(unsigned int i = 3; i < m.vertices().size(); i+=3)
+    {
+        if(m.vertices()[i] > maxPatricio.x) maxPatricio.x = m.vertices()[i];
+        if(m.vertices()[i] < minPatricio.x) minPatricio.x = m.vertices()[i];
+        if(m.vertices()[i+1] > maxPatricio.y) maxPatricio.y = m.vertices()[i+1];
+        if(m.vertices()[i+1] < minPatricio.y) minPatricio.y = m.vertices()[i+1];
+        if(m.vertices()[i+2] > maxPatricio.z) maxPatricio.z = m.vertices()[i+2];
+        if(m.vertices()[i+2] < minPatricio.z) minPatricio.z = m.vertices()[i+2];
+    }
+    centroPatricio = (minPatricio + maxPatricio) / glm::vec3(2.0,2.0,2.0);
+    centroBasePatricio = glm::vec3(centroPatricio.x, minPatricio.y, centroPatricio.z);
+    std::cout << "MAXIMOS DE DON PATRICCIO-->" << maxPatricio.x << ", " << maxPatricio.y << ", " << maxPatricio.z << std::endl;
+    std::cout << "MINIMOS DE DON PATRICCIO-->" << minPatricio.x << ", " << minPatricio.y << ", " << minPatricio.z << std::endl;
+    std::cout << "CENTRO DE DON PATRICCIO-->" <<  centroPatricio.x << ", " << centroPatricio.y << ", " << centroPatricio.z << std::endl;
 }
 
 void MyGLWidget::paintGL () 
@@ -91,7 +109,7 @@ void MyGLWidget::paintGL ()
   //carreguem el view del model
   viewTransform();
   // Activem el VAO per a pintar la caseta 
-  glBindVertexArray (VAO_Homer);
+  glBindVertexArray (VAO_Patricio);
 
   // pintem
   glDrawArrays(GL_TRIANGLES, 0, m.faces().size() * 3);
@@ -115,6 +133,8 @@ void MyGLWidget::modelTransform ()
   glm::mat4 transform (1.0f);
   transform = glm::scale(transform, glm::vec3(scale));
   transform = glm::rotate (transform, anglegir,glm::vec3(0.0, 1.0, 0.0));
+  transform = glm::scale(transform, glm::vec3(4.0/(maxPatricio.y-minPatricio.y)));
+  transform = glm::translate(transform, -centroBasePatricio);
   glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
 }
 
@@ -164,19 +184,19 @@ void MyGLWidget::creaBuffers ()
   // Dades de la caseta
   // Dos VBOs, un amb posició i l'altre amb color
   // Creació del Vertex Array Object per pintar
-  glGenVertexArrays(1, &VAO_Homer);
-  glBindVertexArray(VAO_Homer);
+  glGenVertexArrays(1, &VAO_Patricio);
+  glBindVertexArray(VAO_Patricio);
 
-  GLuint VBO_Homer[2];
-  glGenBuffers(2, VBO_Homer);
-  glBindBuffer(GL_ARRAY_BUFFER, VBO_Homer[0]);
+  GLuint VBO_Patricio[2];
+  glGenBuffers(2, VBO_Patricio);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_Patricio[0]);
   glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m.faces().size() * 3 * 3, m.VBO_vertices(), GL_STATIC_DRAW);
 
   // Activem l'atribut vertexLoc
   glVertexAttribPointer(vertexLoc, 3, GL_FLOAT, GL_FALSE, 0, 0);
   glEnableVertexAttribArray(vertexLoc);
 
-  glBindBuffer(GL_ARRAY_BUFFER, VBO_Homer[1]);
+  glBindBuffer(GL_ARRAY_BUFFER, VBO_Patricio[1]);
   glBufferData(GL_ARRAY_BUFFER, sizeof(GLfloat) * m.faces().size() * 3 * 3, m.VBO_matdiff(), GL_STATIC_DRAW);
 
   // Activem l'atribut colorLoc
@@ -186,12 +206,12 @@ void MyGLWidget::creaBuffers ()
   
   
   glm::vec3 Vertices[6];  // Tres vèrtexs amb X, Y i Z
-  Vertices[0] = glm::vec3(1.0, -1.0, 1.0);
-  Vertices[1] = glm::vec3(1.0, -1.0, -1.0);
-  Vertices[2] = glm::vec3(-1.0, -1.0, -1.0);
-  Vertices[3] = glm::vec3(1.0, -1.0, 1.0);
-  Vertices[4] = glm::vec3(-1.0, -1.0, -1.0);
-  Vertices[5] = glm::vec3(-1.0, -1.0, 1.0);
+  Vertices[0] = glm::vec3(2.5, 0.0, 2.5);
+  Vertices[1] = glm::vec3(2.5, 0.0, -2.5);
+  Vertices[2] = glm::vec3(-2.5, 0.0, -2.5);
+  Vertices[3] = glm::vec3(2.5, 0.0, 2.5);
+  Vertices[4] = glm::vec3(-2.5, 0.0, -2.5);
+  Vertices[5] = glm::vec3(-2.5, 0.0, 2.5);
   
   glm::vec3 colores[6];
   colores[0] = glm::vec3(1, 0, 0);

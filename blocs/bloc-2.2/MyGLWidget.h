@@ -34,6 +34,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     void modelTransformSuelo ();
     void projectTransform ();
     void viewTransform ();
+    void getMinBoxPatricio ();
     // attribute locations
     GLuint vertexLoc, colorLoc;
     // uniform locations
@@ -44,7 +45,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     Model m;//cargamos un solo modelo
     // VAO i VBO names
     //GLuint VAO_Casa;
-    GLuint VAO_Homer, VAO_Suelo;
+    GLuint VAO_Patricio, VAO_Suelo;
     // Program
     QOpenGLShaderProgram *program;
     // Viewport
@@ -53,8 +54,10 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     float scale;
     float anglegir = 0;
     glm::vec3 pos;
-    
-    
+    glm::vec3 minPatricio;
+    glm::vec3 maxPatricio;
+    glm::vec3 centroPatricio;
+    glm::vec3 centroBasePatricio;
     /**
      * VARIABLES PARA LA CAMARA Y OBSERVADOR
      * */
