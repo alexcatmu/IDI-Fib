@@ -214,12 +214,12 @@ void MyGLWidget::creaBuffers ()
   Vertices[5] = glm::vec3(-2.5, 0.0, 2.5);
   
   glm::vec3 colores[6];
-  colores[0] = glm::vec3(1, 0, 0);
-    colores[1] = glm::vec3(0, 0, 1);
-    colores[2] = glm::vec3(0, 1, 0);
-  colores[3] = glm::vec3(1, 0, 0);
-    colores[4] = glm::vec3(0, 1, 0);
-    colores[5] = glm::vec3(0, 0, 1);
+  colores[0] = glm::vec3(1, 0.5, 0.5);
+    colores[1] = glm::vec3(1, 0.5, 0.5);
+    colores[2] = glm::vec3(1, 0.5, 0.5);
+  colores[3] = glm::vec3(1, 0.5, 0.5);
+    colores[4] = glm::vec3(1, 0.5, 0.5);
+    colores[5] = glm::vec3(1, 0.5, 0.5);
   
     glGenVertexArrays(1, &VAO_Suelo);
   glBindVertexArray(VAO_Suelo);
