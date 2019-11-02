@@ -102,18 +102,33 @@ void MyGLWidget::paintGL ()
   // Esborrem el frame-buffer
   glClear (GL_COLOR_BUFFER_BIT);
 
-  // Carreguem la transformació de model
-  modelTransform ();
+  
   //carreguem la projecció del model
   projectTransform();
   //carreguem el view del model
   viewTransform();
+  
+  //PATRICIO CENTRADO
+  // Carreguem la transformació de model
+  modelTransform ();
   // Activem el VAO per a pintar la caseta 
   glBindVertexArray (VAO_Patricio);
+  glDrawArrays(GL_TRIANGLES, 0, m.faces().size() * 3);
 
+  
+  //PATRICIO EN 2,0,2
+    modelTransform2();
+  // Activem el VAO per a pintar la caseta 
+  glBindVertexArray (VAO_Patricio);
   // pintem
   glDrawArrays(GL_TRIANGLES, 0, m.faces().size() * 3);
 
+  //PATRICIO EN -2,0,-2
+    modelTransform3();
+  // Activem el VAO per a pintar la caseta 
+  glBindVertexArray (VAO_Patricio);
+  // pintem
+  glDrawArrays(GL_TRIANGLES, 0, m.faces().size() * 3);
   
   
     modelTransformSuelo();
@@ -131,13 +146,36 @@ void MyGLWidget::modelTransform ()
 {
   // Matriu de transformació de model
   glm::mat4 transform (1.0f);
-  transform = glm::scale(transform, glm::vec3(scale));
-  transform = glm::rotate (transform, anglegir,glm::vec3(0.0, 1.0, 0.0));
-  transform = glm::scale(transform, glm::vec3(4.0/(maxPatricio.y-minPatricio.y)));
+  transform = glm::rotate (transform, float((90*M_PI)/180),glm::vec3(0.0, 1.0, 0.0));
+  transform = glm::scale(transform, glm::vec3(1.0/(maxPatricio.y-minPatricio.y)));
   transform = glm::translate(transform, -centroBasePatricio);
   
   glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
 }
+
+void MyGLWidget::modelTransform2 () 
+{
+  // Matriu de transformació de model
+  glm::mat4 transform (1.0f);
+  transform = glm::translate(transform, glm::vec3(2,0,2));
+  transform = glm::scale(transform, glm::vec3(1.0/(maxPatricio.y-minPatricio.y)));
+  transform = glm::translate(transform, -centroBasePatricio);
+  
+  glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
+}
+
+void MyGLWidget::modelTransform3 () 
+{
+  // Matriu de transformació de model
+  glm::mat4 transform (1.0f);
+  transform = glm::translate(transform, glm::vec3(-2,0,-2));
+    transform = glm::rotate (transform, float(M_PI),glm::vec3(0.0, 1.0, 0.0));
+  transform = glm::scale(transform, glm::vec3(1.0/(maxPatricio.y-minPatricio.y)));
+  transform = glm::translate(transform, -centroBasePatricio);
+  
+  glUniformMatrix4fv(transLoc, 1, GL_FALSE, &transform[0][0]);
+}
+
 
 void MyGLWidget::modelTransformSuelo () 
 {
