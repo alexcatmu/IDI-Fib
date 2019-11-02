@@ -157,28 +157,6 @@ void MyGLWidget::resizeGL (int w, int h)
     }
     projectTransform();
 }
-/*
-void MyGLWidget::keyPressEvent(QKeyEvent* event) 
-{
-  makeCurrent();
-  switch (event->key()) {
-    case Qt::Key_S: { // escalar a més gran
-      scale += 0.05;
-      break;
-    }
-    case Qt::Key_D: { // escalar a més petit
-      scale -= 0.05;
-      break;
-    }
-    case Qt::Key_R: {
-        anglegir += M_PI/4;
-        break;
-    }
-    default: event->ignore(); break;
-  }
-  
-  update();
-}*/
 
 void MyGLWidget::creaBuffers () 
 {
@@ -289,6 +267,27 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *e)
     }
     update();
 }
+
+
+void MyGLWidget::keyPressEvent(QKeyEvent* event) 
+{
+  makeCurrent();
+  float angle = (1*M_PI)/180;
+  switch (event->key()) {
+    case Qt::Key_Z: { // escalar a més gran
+      if(FOV > 0) FOV -= angle;
+      break;
+    }
+    case Qt::Key_X: { // escalar a més petit
+      if(FOV < M_PI)FOV += angle;
+      break;
+    }
+    default: event->ignore(); break;
+  }
+  
+  update();
+}
+
 
 
 void MyGLWidget::carregaShaders()
