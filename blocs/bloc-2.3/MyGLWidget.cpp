@@ -268,23 +268,25 @@ void MyGLWidget::projectTransform(){
 void MyGLWidget::mouseMoveEvent(QMouseEvent *e)
 {
     makeCurrent();
-    float angle = (1*M_PI)/180;//1º
-    if(e->x() > x_anteriorMouse) {//aumenta psi
-        anglegirPsi += angle;//1º
-    }
-    else if (e->x() < x_anteriorMouse) {//disminuye psi
-        anglegirPsi -= angle;
-    }
-    if(e->y() > y_anteriorMouse) {//aumenta theta
-        anglegirTheta += angle;
-    }
-    else if(e->y() < y_anteriorMouse) {//disminuye theta
-        anglegirTheta -= angle;
-    }
-    
+    if(e->buttons() == Qt::LeftButton){
+        float angle = (1*M_PI)/180;//1º
+        if(e->x() > x_anteriorMouse) {//aumenta psi
+            anglegirPsi += angle;//1º
+        }
+        else if (e->x() < x_anteriorMouse) {//disminuye psi
+            anglegirPsi -= angle;
+        }
+        if(e->y() > y_anteriorMouse) {//aumenta theta
+            anglegirTheta += angle;
+        }
+        else if(e->y() < y_anteriorMouse) {//disminuye theta
+            anglegirTheta -= angle;
+        }
         
-    x_anteriorMouse = e->x();
-    y_anteriorMouse = e->y();
+            
+        x_anteriorMouse = e->x();
+        y_anteriorMouse = e->y();
+    }
     update();
 }
 
