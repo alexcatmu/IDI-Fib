@@ -44,7 +44,7 @@ void MyGLWidget::iniCamera ()   // Cal modificar aquest mètode...
     distancia = 2*radiEsc;
   angleY = M_PI/6.0;
   angleX = 0.0;
-  //obs = centreEsc + glm::vec3(0, 2, distancia);
+  obs = centreEsc + glm::vec3(0, 2, distancia);
   vrp = centreEsc;
   up = glm::vec3(0,1,0);
   ra = 1.0;
@@ -139,6 +139,8 @@ void MyGLWidget::modelTransformPatricio ()
     TG = glm::rotate(TG, angleGirPatri, glm::vec3(0., 1., 0.));
     TG = glm::scale(TG, glm::vec3(6 * escalaPatri, 6*escalaPatri, 6*escalaPatri));
     TG = glm::translate(TG, -centreBasePatri);
+    
+    
     glUniformMatrix4fv(transLoc, 1, GL_FALSE, &TG[0][0]);
 }
 
@@ -151,6 +153,9 @@ void MyGLWidget::projectTransform ()     // Cal modificar aquest mètode...
   if(ra < 1) fov = 2*atan(tan(alfaini)/ra);
   else fov = 2 *alfaini;
   
+  //std::cout << "ra: " << ra << std::endl;
+  //std::cout << "zn: " << zn << std::endl;
+  //std::cout << "zf: " << zf << std::endl;
   //std::cout << "W: " << ample << std::endl << "H: " << alt << std::endl;
   if(!camaraPatricio) Proj = glm::perspective(fov, ra, zn, zf);
   else {
@@ -166,18 +171,22 @@ void MyGLWidget::viewTransform ()      // Cal modificar aquest mètode...
 {
     //float angleGirPsi = M_PI/6.0;
     //float angleGirTheta = 0.0;
-  glm::mat4 View;  // Matriu de posició i orientació
-
+  glm::mat4 View(1.0);  // Matriu de posició i orientació
     //View = glm::lookAt(obs, vrp, up);
     if(!camaraPatricio){
+        //View = glm::lookAt(obs, vrp, up);
+        
         View = glm::translate(View, glm::vec3(0,0,-distancia));
+        View = glm::rotate(View, 0.f, glm::vec3(0,0,1));//angulo entre vrp y obs(en x)
         View = glm::rotate(View, angleX, glm::vec3(1,0,0));//angulo entre vrp y obs(en x)
         View = glm::rotate(View, -angleY, glm::vec3(0.,1.,0.));
         View = glm::translate(View, -vrp);
+        
     } else {
         View = glm::lookAt(glm::vec3(2.0,6.5,2.0), posPilota, glm::vec3(0,1,0));
     }
-
+    //std::cout << "vrp: " << vrp.x << "," << vrp.y << "," << vrp.z << std::endl;
+    //std::cout << "view: " << View[0] << "," << View[1] << "," << View[2] << View[3] << std::endl;
   glUniformMatrix4fv (viewLoc, 1, GL_FALSE, &View[0][0]);
 }
 

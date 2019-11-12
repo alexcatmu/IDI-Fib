@@ -72,7 +72,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     float alfaini;
     float angleX, angleY;
     
-    bool camaraPatricio = false;
+    int camaraPatricio = 0;
 
     typedef  enum {NONE, ROTATE} InteractiveAction;
     InteractiveAction DoingInteractive;
