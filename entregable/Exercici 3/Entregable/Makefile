@@ -455,7 +455,8 @@ compiler_moc_source_clean:
 compiler_uic_make_all: ui_MyForm.h
 compiler_uic_clean:
 	-$(DEL_FILE) ui_MyForm.h
-ui_MyForm.h: MyForm.ui
+ui_MyForm.h: MyForm.ui \
+		MyLabel.h
 	/usr/lib64/qt5/bin/uic MyForm.ui -o ui_MyForm.h
 
 compiler_yacc_decl_make_all:

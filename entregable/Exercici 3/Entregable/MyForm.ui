@@ -91,7 +91,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_3">
+      <widget class="MyLabel" name="label_3">
        <property name="text">
         <string>TextLabel</string>
        </property>
@@ -149,6 +149,50 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>MyLabel</class>
+   <extends>QLabel</extends>
+   <header>MyLabel.h</header>
+   <slots>
+    <slot>passwordIntrodueix(QString)</slot>
+    <slot>passwordRepeteix(QString)</slot>
+   </slots>
+  </customwidget>
+ </customwidgets>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>lineEdit</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>label_3</receiver>
+   <slot>passwordIntrodueix(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>349</x>
+     <y>21</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>379</x>
+     <y>105</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>lineEdit_2</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>label_3</receiver>
+   <slot>passwordRepeteix(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>344</x>
+     <y>67</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>347</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

@@ -22,6 +22,7 @@
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
+#include "MyLabel.h"
 
 QT_BEGIN_NAMESPACE
 
@@ -40,7 +41,7 @@ public:
     QHBoxLayout *horizontalLayout_3;
     QLabel *label_4;
     QSpacerItem *horizontalSpacer_2;
-    QLabel *label_3;
+    MyLabel *label_3;
     QVBoxLayout *verticalLayout;
     QSpacerItem *verticalSpacer;
     QHBoxLayout *horizontalLayout_4;
@@ -104,7 +105,7 @@ public:
 
         horizontalLayout_3->addItem(horizontalSpacer_2);
 
-        label_3 = new QLabel(MyForm);
+        label_3 = new MyLabel(MyForm);
         label_3->setObjectName(QStringLiteral("label_3"));
 
         horizontalLayout_3->addWidget(label_3);
@@ -142,6 +143,8 @@ public:
 
 
         retranslateUi(MyForm);
+        QObject::connect(lineEdit, SIGNAL(textChanged(QString)), label_3, SLOT(passwordIntrodueix(QString)));
+        QObject::connect(lineEdit_2, SIGNAL(textChanged(QString)), label_3, SLOT(passwordRepeteix(QString)));
 
         QMetaObject::connectSlotsByName(MyForm);
     } // setupUi
