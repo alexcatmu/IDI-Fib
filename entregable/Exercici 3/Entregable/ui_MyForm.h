@@ -107,6 +107,8 @@ public:
 
         label_3 = new MyLabel(MyForm);
         label_3->setObjectName(QStringLiteral("label_3"));
+        label_3->setMinimumSize(QSize(60, 60));
+        label_3->setStyleSheet(QStringLiteral("background:orange"));
 
         horizontalLayout_3->addWidget(label_3);
 
@@ -145,19 +147,23 @@ public:
         retranslateUi(MyForm);
         QObject::connect(lineEdit, SIGNAL(textChanged(QString)), label_3, SLOT(passwordIntrodueix(QString)));
         QObject::connect(lineEdit_2, SIGNAL(textChanged(QString)), label_3, SLOT(passwordRepeteix(QString)));
+        QObject::connect(pushButton, SIGNAL(clicked()), lineEdit_2, SLOT(clear()));
+        QObject::connect(pushButton, SIGNAL(clicked()), lineEdit, SLOT(clear()));
+        QObject::connect(pushButton_2, SIGNAL(clicked()), label_4, SLOT(show()));
+        QObject::connect(pushButton, SIGNAL(clicked()), label_4, SLOT(hide()));
 
         QMetaObject::connectSlotsByName(MyForm);
     } // setupUi
 
     void retranslateUi(QWidget *MyForm)
     {
-        MyForm->setWindowTitle(QApplication::translate("MyForm", "Form", 0));
-        label->setText(QApplication::translate("MyForm", "TextLabel", 0));
-        label_2->setText(QApplication::translate("MyForm", "TextLabel", 0));
+        MyForm->setWindowTitle(QApplication::translate("MyForm", "Contrassenya", 0));
+        label->setText(QApplication::translate("MyForm", "Introdueix Contrassenya", 0));
+        label_2->setText(QApplication::translate("MyForm", "Repeteix la contrassenya", 0));
         label_4->setText(QApplication::translate("MyForm", "TextLabel", 0));
-        label_3->setText(QApplication::translate("MyForm", "TextLabel", 0));
-        pushButton->setText(QApplication::translate("MyForm", "PushButton", 0));
-        pushButton_2->setText(QApplication::translate("MyForm", "PushButton", 0));
+        label_3->setText(QString());
+        pushButton->setText(QApplication::translate("MyForm", "Neteja", 0));
+        pushButton_2->setText(QApplication::translate("MyForm", "Valida", 0));
     } // retranslateUi
 
 };

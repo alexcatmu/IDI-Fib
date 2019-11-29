@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Contrassenya</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -19,7 +19,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Introdueix Contrassenya</string>
        </property>
       </widget>
      </item>
@@ -46,7 +46,7 @@
      <item>
       <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>TextLabel</string>
+        <string>Repeteix la contrassenya</string>
        </property>
       </widget>
      </item>
@@ -92,8 +92,17 @@
      </item>
      <item>
       <widget class="MyLabel" name="label_3">
+       <property name="minimumSize">
+        <size>
+         <width>60</width>
+         <height>60</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background:orange</string>
+       </property>
        <property name="text">
-        <string>TextLabel</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -119,7 +128,7 @@
        <item>
         <widget class="QPushButton" name="pushButton">
          <property name="text">
-          <string>PushButton</string>
+          <string>Neteja</string>
          </property>
         </widget>
        </item>
@@ -139,7 +148,7 @@
        <item>
         <widget class="QPushButton" name="pushButton_2">
          <property name="text">
-          <string>PushButton</string>
+          <string>Valida</string>
          </property>
         </widget>
        </item>
@@ -191,6 +200,70 @@
     <hint type="destinationlabel">
      <x>347</x>
      <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit_2</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>60</x>
+     <y>280</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>273</x>
+     <y>58</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>lineEdit</receiver>
+   <slot>clear()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>27</x>
+     <y>273</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>267</x>
+     <y>16</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>label_4</receiver>
+   <slot>show()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>337</x>
+     <y>276</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>54</x>
+     <y>118</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton</sender>
+   <signal>clicked()</signal>
+   <receiver>label_4</receiver>
+   <slot>hide()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>266</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>48</x>
+     <y>138</y>
     </hint>
    </hints>
   </connection>
