@@ -151,6 +151,8 @@ public:
         QObject::connect(pushButton, SIGNAL(clicked()), lineEdit, SLOT(clear()));
         QObject::connect(pushButton_2, SIGNAL(clicked()), label_4, SLOT(show()));
         QObject::connect(pushButton, SIGNAL(clicked()), label_4, SLOT(hide()));
+        QObject::connect(label_3, SIGNAL(setEstado(QString)), label_4, SLOT(setText(QString)));
+        QObject::connect(pushButton_2, SIGNAL(clicked()), label_3, SLOT(activaTexto()));
 
         QMetaObject::connectSlotsByName(MyForm);
     } // setupUi
@@ -160,7 +162,7 @@ public:
         MyForm->setWindowTitle(QApplication::translate("MyForm", "Contrassenya", 0));
         label->setText(QApplication::translate("MyForm", "Introdueix Contrassenya", 0));
         label_2->setText(QApplication::translate("MyForm", "Repeteix la contrassenya", 0));
-        label_4->setText(QApplication::translate("MyForm", "TextLabel", 0));
+        label_4->setText(QString());
         label_3->setText(QString());
         pushButton->setText(QApplication::translate("MyForm", "Neteja", 0));
         pushButton_2->setText(QApplication::translate("MyForm", "Valida", 0));

@@ -73,7 +73,7 @@
      <item>
       <widget class="QLabel" name="label_4">
        <property name="text">
-        <string>TextLabel</string>
+        <string/>
        </property>
       </widget>
      </item>
@@ -164,8 +164,10 @@
    <extends>QLabel</extends>
    <header>MyLabel.h</header>
    <slots>
+    <signal>setEstado(QString)</signal>
     <slot>passwordIntrodueix(QString)</slot>
     <slot>passwordRepeteix(QString)</slot>
+    <slot>activaTexto()</slot>
    </slots>
   </customwidget>
  </customwidgets>
@@ -246,7 +248,7 @@
      <y>276</y>
     </hint>
     <hint type="destinationlabel">
-     <x>54</x>
+     <x>6</x>
      <y>118</y>
     </hint>
    </hints>
@@ -262,8 +264,40 @@
      <y>266</y>
     </hint>
     <hint type="destinationlabel">
-     <x>48</x>
+     <x>6</x>
      <y>138</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>label_3</sender>
+   <signal>setEstado(QString)</signal>
+   <receiver>label_4</receiver>
+   <slot>setText(QString)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>334</x>
+     <y>105</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>92</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>pushButton_2</sender>
+   <signal>clicked()</signal>
+   <receiver>label_3</receiver>
+   <slot>activaTexto()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>317</x>
+     <y>274</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>338</x>
+     <y>137</y>
     </hint>
    </hints>
   </connection>

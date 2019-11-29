@@ -9,4 +9,8 @@ class MyLabel: public QLabel{
     public slots:
         void passwordIntrodueix(QString);
         void passwordRepeteix(QString);
+        void activaTexto();
+
+    signals:
+        void setEstado(const QString &);
 };
