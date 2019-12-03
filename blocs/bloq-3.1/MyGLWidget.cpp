@@ -285,10 +285,10 @@ void MyGLWidget::createBuffersTerraIParet ()
   };
 
   // Definim el material del terra
-  glm::vec3 amb(0.2,0,0.2);
-  glm::vec3 diff(0.8,0,0.8);
-  glm::vec3 spec(0,0,0);
-  float shin = 100;
+  glm::vec3 amb(0.2,0,0.2); //buffer de component ambient
+  glm::vec3 diff(0,0,0.8); //Buffer de component difusa
+  glm::vec3 spec(0.6,0.6,0.6);//Buffer de component especular
+  float shin = 100;//Buffer de component shininness
 
   // Fem que aquest material afecti a tots els vèrtexs per igual
   glm::vec3 matambterra[12] = {
