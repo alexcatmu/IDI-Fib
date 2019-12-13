@@ -17,6 +17,15 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
   public:
     MyGLWidget (QWidget *parent=0);
     ~MyGLWidget ();
+    
+    signals:
+        void activarCamara(bool);
+        void activarPelota(bool);
+        
+    public slots:
+        void checkCamara(bool);
+        void checkPelota(bool);
+    
 
   protected:
     // initializeGL - Aqui incluim les inicialitzacions del contexte grafic.

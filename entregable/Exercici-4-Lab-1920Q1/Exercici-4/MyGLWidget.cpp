@@ -175,9 +175,10 @@ void MyGLWidget::viewTransform () // Potser et calgui modificar aquest mètode..
 void MyGLWidget::posicionaFocus()   // Cal omplir aquest mètode i cridar-lo des d'on creguis...
 {
     if(focusInCamera) posFocus = glm::vec3(0,0,0);//el foco de luz esta en la camara
-    else posFocus = glm::vec3(posPilota.x, 6.5, posPilota.z);//el foco de luz esta encima de la pelota
-    
-    posFocus = glm::vec3(View * glm::vec4(posFocus, 1.0));
+    else {
+        posFocus = glm::vec3(posPilota.x, 6.5, posPilota.z);//el foco de luz esta encima de la pelota
+        posFocus = glm::vec3(View * glm::vec4(posFocus, 1.0));
+    }
     glUniform3fv(posFocusLoc, 1, &posFocus[0]);
 }
 
@@ -204,12 +205,28 @@ void MyGLWidget::keyPressEvent(QKeyEvent* event)  // Cal modificar aquesta funci
     case Qt::Key_F: {
       // aquesta tecla ha de canviar cíclicament la posició del focus
         focusInCamera = !focusInCamera;
+        emit activarCamara(focusInCamera);
+        emit activarPelota(!focusInCamera);
       break;
     }
     default: event->ignore(); break;
   }
     posicionaFocus();
   update();
+}
+
+void MyGLWidget::checkCamara(bool b){
+    makeCurrent();
+    focusInCamera = true;
+    posicionaFocus();
+    update();
+}
+
+void MyGLWidget::checkPelota(bool b){
+    makeCurrent();
+    focusInCamera = false;
+    posicionaFocus();
+    update();
 }
 
 void MyGLWidget::mousePressEvent (QMouseEvent *e)

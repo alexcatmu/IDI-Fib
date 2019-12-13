@@ -27,6 +27,23 @@
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">
      <item>
+      <widget class="QRadioButton" name="radioButton">
+       <property name="text">
+        <string>C&amp;àmera</string>
+       </property>
+       <property name="checked">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QRadioButton" name="radioButton_2">
+       <property name="text">
+        <string>Pi&amp;lota</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="verticalSpacer">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
@@ -62,6 +79,12 @@
    <extends>QWidget</extends>
    <header>MyGLWidget.h</header>
    <container>1</container>
+   <slots>
+    <signal>activarCamara(bool)</signal>
+    <signal>activarPelota(bool)</signal>
+    <slot>checkPelota(bool)</slot>
+    <slot>checkCamara(bool)</slot>
+   </slots>
   </customwidget>
  </customwidgets>
  <resources/>
@@ -73,12 +96,76 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>796</x>
-     <y>596</y>
+     <x>811</x>
+     <y>718</y>
     </hint>
     <hint type="destinationlabel">
      <x>839</x>
      <y>529</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>activarCamara(bool)</signal>
+   <receiver>radioButton</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>655</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>745</x>
+     <y>13</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>widget</sender>
+   <signal>activarPelota(bool)</signal>
+   <receiver>radioButton_2</receiver>
+   <slot>setChecked(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>526</x>
+     <y>187</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>778</x>
+     <y>40</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>widget</receiver>
+   <slot>checkCamara(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>729</x>
+     <y>18</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>690</x>
+     <y>18</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioButton_2</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>widget</receiver>
+   <slot>checkPelota(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>758</x>
+     <y>53</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>706</x>
+     <y>150</y>
     </hint>
    </hints>
   </connection>
