@@ -44,6 +44,7 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     void viewTransform ();
     void modelTransformTerra ();
     void modelTransformPatricio ();
+    void modelTransformPatricio2();
     void calculaCapsaModel (Model &p, float &escala, glm::vec3 &centreBase);
 
     // VAO i VBO names
