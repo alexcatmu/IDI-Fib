@@ -13,9 +13,9 @@ uniform mat4 view;
 uniform mat4 TG;
 
 // Valors per als components que necessitem dels focus de llum
-vec3 colFocus = vec3(0.8, 0.8, 0.8);
-vec3 llumAmbient = vec3(0.2, 0.2, 0.2);
-vec3 posFocus = vec3(1, 1, 1); 
+vec3 colFocus = vec3(0, 0.8, 0.8);
+vec3 llumAmbient = vec3(0.9, 0.9, 0.9);
+vec3 posFocus = vec3(0, 0, 0); 
 
 out vec3 fcolor;
 
@@ -55,7 +55,30 @@ vec3 Phong (vec3 NormSCO, vec3 L, vec4 vertSCO)
 }
 
 void main()
-{	
+{	/*
     fcolor = matdiff;
+    
+        mat3 NormalMatrix = inverse(transpose(mat3(view * TG)));
+        vec3 NormSCO = normalize(NormalMatrix * vec3(1,1,1));
+        
+        vec4 vertexSCO = view*TG*vec4(vertex, 1.0);
+        
+        
+        vec4 focusSCO = view * vec4(posFocus, 1.0);
+        
+        
+        vec3 LSCO = normalize(focusSCO.xyz-vertexSCO.xyz);
+        fcolor = Phong(NormSCO, LSCO, vertexSCO);
+    
     gl_Position = proj * view * TG * vec4 (vertex, 1.0);
+    */
+    
+    mat3 NormalMatrix= inverse (transpose (mat3 (view*TG)));
+    vec3 NormSCO= normalize(NormalMatrix*normal);     
+    vec4 vertexSCO= view*TG* vec4(vertex,1.0);    
+    vec4 focusSCO = vec4 (posFocus, 1.0);    
+    vec3  LSCO=normalize (focusSCO.xyz-vertexSCO.xyz);     
+    fcolor= Phong(NormSCO, LSCO, vertexSCO); 
+    gl_Position = proj * view * TG * vec4 (vertex, 1.0);  
+    
 }

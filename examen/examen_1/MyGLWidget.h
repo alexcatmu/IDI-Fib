@@ -17,6 +17,12 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
   public:
     MyGLWidget (QWidget *parent=0);
     ~MyGLWidget ();
+    
+    public slots:
+        void recibirAlfa(int);
+
+    signals:
+        void enviaAlfa(int);
 
   protected:
     // initializeGL - Aqui incluim les inicialitzacions del contexte grafic.
@@ -68,10 +74,10 @@ class MyGLWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
     glm::vec3 centreEsc;
     float radiEsc, ra, fov, zn, zf;
 
-    typedef  enum {NONE, ROTATE} InteractiveAction;
+    typedef  enum {NONE, ROTATE, ZOOM} InteractiveAction;
     InteractiveAction DoingInteractive;
     int xClick, yClick;
-    float angleY, angleX;
+    float angleY, angleX, alfa;
     bool perspectiva;
 };
 

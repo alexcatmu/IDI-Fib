@@ -43,7 +43,9 @@ void MyGLWidget::iniCamera ()
 {
   angleY = angleX = 0.0;
   ra = 1.0;
-  fov = float(M_PI/3.0);
+  alfa = asin(radiEsc/(2*radiEsc));
+  emit enviaAlfa(alfa*100);
+  fov = 2 * alfa;
   zn = radiEsc;
   zf = 3*radiEsc;
 
@@ -93,7 +95,7 @@ void MyGLWidget::resizeGL (int w, int h)
   ample = w;
   alt = h;
   ra = float(ample)/float(alt);
-  if(ra < 1) fov = atan(tan(float(M_PI/3.0))/ra);
+  if(ra < 1) fov = 2 * atan(tan(alfa)/ra);
   
   projectTransform();
 }
@@ -143,6 +145,7 @@ void MyGLWidget::viewTransform ()
 {
   glm::mat4 View(1.f);  // Matriu de posició i orientació
   View = glm::translate(View, glm::vec3(0, 0, -2*radiEsc));
+    View = glm::rotate(View, angleX, glm::vec3(1, 0, 0));
   View = glm::rotate(View, -angleY, glm::vec3(0, 1, 0));
 
     View = glm::translate(View, glm::vec3(-centreEsc));
@@ -173,6 +176,11 @@ void MyGLWidget::mousePressEvent (QMouseEvent *e)
   {
     DoingInteractive = ROTATE;
   }
+  if (e->button() & Qt::RightButton &&
+      ! (e->modifiers() & (Qt::ShiftModifier|Qt::AltModifier|Qt::ControlModifier)))
+  {
+    DoingInteractive = ZOOM;
+  }
 }
 
 void MyGLWidget::mouseReleaseEvent( QMouseEvent *)
@@ -188,13 +196,40 @@ void MyGLWidget::mouseMoveEvent(QMouseEvent *e)
   {
     // Fem la rotació
     angleY += (e->x() - xClick) * M_PI / 180.0;
+    angleX += (e->y() - yClick) * M_PI / 180.0;
     viewTransform ();
   }
+    if (DoingInteractive == ZOOM)
+    {
+        // Fem la rotació
+        std::cout << "fem zoom: " << ((e->y() - yClick) * M_PI / 180.0) << std::endl;
+        alfa += (e->y() - yClick) / 300.0;
+        std::cout << "alfa: " << alfa << std::endl;
+        if(alfa < 0.05) alfa = 0.05;
+        else if(alfa > 1.5) alfa = 1.5;
+        
+        emit enviaAlfa(alfa*100);
+        
+        if(ra < 1) fov = 2 * atan(tan(alfa)/ra);
+        else fov = 2 * alfa;
+        projectTransform();
+    }
 
   xClick = e->x();
   yClick = e->y();
 
   update ();
+}
+
+void MyGLWidget::recibirAlfa(int alfaSlider){
+    makeCurrent();
+    alfa = float(alfaSlider)/100.0;
+    std::cout << "alfaSlider: " << alfaSlider << std::endl;
+    std::cout << "alfa en slot: " << alfa << std::endl;
+    if(ra < 1) fov = 2 * atan(tan(alfa)/ra);
+    else fov = 2 * alfa;
+    projectTransform();
+    update ();
 }
 
 void MyGLWidget::calculaCapsaModel (Model &p, float &escala, glm::vec3 &centreBase)

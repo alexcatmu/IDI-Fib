@@ -16,6 +16,7 @@
 #include <QtWidgets/QHBoxLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSlider>
 #include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QVBoxLayout>
 #include <QtWidgets/QWidget>
@@ -29,6 +30,7 @@ public:
     QHBoxLayout *horizontalLayout;
     MyGLWidget *widget;
     QVBoxLayout *verticalLayout;
+    QSlider *verticalSlider;
     QSpacerItem *verticalSpacer;
     QPushButton *pushButton;
 
@@ -51,6 +53,15 @@ public:
 
         verticalLayout = new QVBoxLayout();
         verticalLayout->setObjectName(QStringLiteral("verticalLayout"));
+        verticalSlider = new QSlider(MyForm);
+        verticalSlider->setObjectName(QStringLiteral("verticalSlider"));
+        verticalSlider->setLayoutDirection(Qt::LeftToRight);
+        verticalSlider->setMinimum(5);
+        verticalSlider->setMaximum(150);
+        verticalSlider->setOrientation(Qt::Vertical);
+
+        verticalLayout->addWidget(verticalSlider);
+
         verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
 
         verticalLayout->addItem(verticalSpacer);
@@ -71,6 +82,8 @@ public:
 
         retranslateUi(MyForm);
         QObject::connect(pushButton, SIGNAL(clicked()), MyForm, SLOT(close()));
+        QObject::connect(widget, SIGNAL(enviaAlfa(int)), verticalSlider, SLOT(setValue(int)));
+        QObject::connect(verticalSlider, SIGNAL(valueChanged(int)), widget, SLOT(recibirAlfa(int)));
 
         QMetaObject::connectSlotsByName(MyForm);
     } // setupUi
